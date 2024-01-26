@@ -15,7 +15,7 @@ unsigned long lastTime = 0;
 // Network
 const char* ssid = "Duy Thong";
 const char* password = "12345678";
-const String serverName = "192.168.1.9";
+const String serverName = "192.168.1.6";
 const int port = 5000;
 WiFiClient wifi;
 HttpClient client(wifi, serverName, port);

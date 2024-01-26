@@ -22,5 +22,6 @@ Note: Will update link later.
 1. Run the server.
 2. Get the server ip. Remember to get the 192.168.x.x one, not the 127.0.x.x one (since it's for one device, and we use at least two devices here).
 3. Replace the neccessary information in the Arduino source code.
-4. Run the Arduino device.
-5. Go to the server ip and check the result.
+4. Flash code.
+5. Run the Arduino device.
+6. Go to the server ip and check the result.
