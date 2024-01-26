@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block header %}
+    <h1>{% block title %}Temperature{% endblock %}</h1>
+{% endblock %}
+{% block content %}
+    <div class="section">
+        <div class="section-title">
+            <div class="section-titletext">Temperature</div>
+            <img src="{{ url_for('static', filename='temperature.svg') }}" alt="temperature" class="section-image">
+        </div>
+        
+        <p class="section-text">{{ data['temperature'] }}&deg;C</p>
+    </div>
+{% endblock %}

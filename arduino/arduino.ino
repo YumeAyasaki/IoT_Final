@@ -2,7 +2,7 @@
 #include <DHT.h>
 #include <DHT_U.h>
 #include <WiFi.h>
-#include <HTTPClient.h>
+#include <HttpClient.h>
 
 #define DHTPIN 2
 #define DHTTYPE DHT11
@@ -15,8 +15,10 @@ unsigned long lastTime = 0;
 // Network
 const char* ssid = "Duy Thong";
 const char* password = "12345678";
-const String serverName = "http://http://127.0.0.1:5000/update/";
-//const String serverName = "https://b129-2405-4802-9177-e6c0-94e8-a8d5-8c58-5f4c.ngrok-free.app/update/";
+const String serverName = "192.168.1.9";
+const int port = 5000;
+WiFiClient wifi;
+HttpClient client(wifi, serverName, port);
 
 // Variables for temperature and humidity
 float temperature;
@@ -72,18 +74,23 @@ void loop() {
       // Get temperature and humidity
       getTemperatureAndHumidity();
 
-      HTTPClient http;
-      String serverPath = serverName + "?temperature=" + String(temperature) + "&humidity=" + String(humidity);
+      // Send data to server using GET method
 
-      Serial.println(serverPath.c_str());
-      http.begin(serverPath.c_str());
-      int httpCode = http.GET();
-      Serial.println(httpCode);
-      if (httpCode > 0) {
-        String payload = http.getString();
-        Serial.println(payload);
-      }
-      http.end();
+      String data = "?temperature=" + String(temperature) + "&humidity=" + String(humidity);
+      String sendingToServer = "http://" + serverName + ":" + port + "/update/" + data;
+
+      client.beginRequest();
+      Serial.println(sendingToServer);
+      client.get(sendingToServer);
+      client.endRequest();
+
+      int statusCode = client.responseStatusCode();
+      String response = client.responseBody();
+
+      Serial.print("Status code: ");
+      Serial.println(statusCode);
+      Serial.print("Response: ");
+      Serial.println(response);
     }
     else {
       Serial.println("Can't send data");
